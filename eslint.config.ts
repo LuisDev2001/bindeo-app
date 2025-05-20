@@ -14,19 +14,9 @@ export default defineConfigWithVueTs(
     files: ['**/*.{ts,mts,tsx,vue}'],
   },
 
-  globalIgnores(['**/dist/**', '**/dist-ssr/**', '**/coverage/**']),
+  globalIgnores(['**/dist/**', '**/dist-ssr/**', '**/coverage/**', './src/components/ui/**/*.vue']),
 
   pluginVue.configs['flat/essential'],
-  {
-    rules: {
-      'vue/multi-word-component-names': [
-        'error',
-        {
-          ignores: ['Button'],
-        },
-      ],
-    },
-  },
   vueTsConfigs.recommended,
   skipFormatting,
 )
