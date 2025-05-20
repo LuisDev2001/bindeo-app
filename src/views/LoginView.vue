@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { ref } from 'vue'
+import { GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword } from 'firebase/auth'
+import { useFirebaseAuth } from 'vuefire'
 import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import * as z from 'zod'
@@ -7,6 +10,11 @@ import { Button } from '@/components/ui/button'
 import { FormControl, FormField, FormItem, FormLabel } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
+
+const googleAuthProvider = new GoogleAuthProvider()
+
+const auth = useFirebaseAuth()
+const error = ref(null)
 
 const formSchema = toTypedSchema(
   z.object({
@@ -20,8 +28,31 @@ const form = useForm({
 })
 
 const onSubmit = form.handleSubmit((values) => {
-  console.log('Form submitted!', values)
+  if (!auth) {
+    console.error('Firebase Auth instance is not available.')
+    return
+  }
+  error.value = null
+  signInWithEmailAndPassword(auth, values.email, values.password)
+    .then(() => {
+      console.log('User signed in successfully')
+    })
+    .catch((error) => {
+      console.error('Error signing in:', { error })
+      error.value = error.message
+    })
 })
+
+const signinPopup = () => {
+  if (!auth) {
+    console.error('Firebase Auth instance is not available.')
+    return
+  }
+  error.value = null
+  signInWithPopup(auth, googleAuthProvider).catch((error) => {
+    console.error('Error signing in with Google:', { error })
+  })
+}
 </script>
 
 <template>
@@ -56,7 +87,7 @@ const onSubmit = form.handleSubmit((values) => {
 
     <Separator label="O CONTINUA CON" />
 
-    <Button class="w-full cursor-pointer" variant="outline" type="submit">
+    <Button class="w-full cursor-pointer" variant="outline" type="submit" @click="signinPopup">
       <Icon icon="mdi:google-plus" width="20" height="20"></Icon>
       Gmail
     </Button>
