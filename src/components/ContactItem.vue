@@ -4,19 +4,35 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
+
+export interface Props {
+  isPreview?: boolean
+  avatarUrl?: string | null
+  name?: string
+  email?: string
+}
+const props = withDefaults(defineProps<Props>(), {
+  isPreview: false,
+})
 </script>
 
 <template>
   <div class="flex gap-4 items-center justify-start rounded-md border px-4 py-2">
     <Avatar>
-      <AvatarImage src="https://github.com/unovue.png" alt="@unovue" />
-      <AvatarFallback>CN</AvatarFallback>
+      <AvatarImage v-if="props.avatarUrl" :src="props.avatarUrl" :alt="props.name" />
+      <AvatarFallback v-else>
+        <Icon icon="mdi:account" width="20" height="20" />
+      </AvatarFallback>
     </Avatar>
     <div>
-      <Label class="text-center text-lg font-semibold">John Doe</Label>
-      <Label class="text-center text-sm text-muted-foreground"> example@example.com </Label>
+      <Label class="text-center text-lg font-semibold">
+        {{ props.name || 'Nombre de contacto' }}
+      </Label>
+      <Label class="text-center text-sm text-muted-foreground">
+        {{ props.email || 'Correo electrónico' }}
+      </Label>
     </div>
-    <div class="flex gap-2 ml-auto">
+    <div v-if="!props.isPreview" class="flex gap-2 ml-auto">
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger as-child>

@@ -52,9 +52,15 @@ const signinPopup = () => {
     return
   }
   error.value = null
-  signInWithPopup(auth, googleAuthProvider).catch((error) => {
-    console.error('Error signing in with Google:', { error })
-  })
+  signInWithPopup(auth, googleAuthProvider)
+    .then(() => {
+      console.log('User signed in successfully')
+      router.push({ name: 'contacts' })
+    })
+    .catch((error) => {
+      console.error('Error signing in:', { error })
+      error.value = error.message
+    })
 }
 </script>
 
