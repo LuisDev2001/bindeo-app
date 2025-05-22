@@ -6,14 +6,13 @@ import { Button } from '@/components/ui/button'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 
 export interface Props {
-  isPreview?: boolean
   avatarUrl?: string | null
   name?: string
   email?: string
 }
-const props = withDefaults(defineProps<Props>(), {
-  isPreview: false,
-})
+const props = defineProps<Props>()
+
+const emits = defineEmits(['edit', 'delete'])
 </script>
 
 <template>
@@ -32,7 +31,7 @@ const props = withDefaults(defineProps<Props>(), {
         {{ props.email || 'Correo electrónico' }}
       </Label>
     </div>
-    <div v-if="!props.isPreview" class="flex gap-2 ml-auto">
+    <div class="flex gap-2 ml-auto">
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger as-child>
@@ -49,7 +48,7 @@ const props = withDefaults(defineProps<Props>(), {
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger as-child>
-            <Button variant="outline" size="icon">
+            <Button variant="outline" size="icon" @click="emits('delete')">
               <Icon icon="mdi:trash-outline" width="20" height="20"></Icon>
             </Button>
           </TooltipTrigger>
