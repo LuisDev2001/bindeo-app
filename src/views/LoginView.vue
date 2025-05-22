@@ -10,9 +10,11 @@ import { Button } from '@/components/ui/button'
 import { FormControl, FormField, FormItem, FormLabel } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
+import { useRouter } from 'vue-router'
 
 const googleAuthProvider = new GoogleAuthProvider()
 
+const router = useRouter()
 const auth = useFirebaseAuth()
 const error = ref(null)
 
@@ -36,6 +38,7 @@ const onSubmit = form.handleSubmit((values) => {
   signInWithEmailAndPassword(auth, values.email, values.password)
     .then(() => {
       console.log('User signed in successfully')
+      router.push({ name: 'contacts' })
     })
     .catch((error) => {
       console.error('Error signing in:', { error })
