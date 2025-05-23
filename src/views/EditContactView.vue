@@ -44,12 +44,12 @@ const onSubmit = form.handleSubmit(async (values) => {
       createdAt: new Date(),
     }).then(() => {
       form.resetForm()
-      toast.success('Contacto creado con éxito')
+      toast.success('Contacto actualizado con éxito')
       router.push({ name: 'contacts' })
     })
   } catch (e) {
     console.error('Error creating contact:', e)
-    toast.error('Error al crear el contacto')
+    toast.error('Error al actualizar el contacto')
   } finally {
     isLoadingEditContact.value = false
   }
