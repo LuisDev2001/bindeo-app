@@ -3,7 +3,7 @@ import { initializeApp } from 'firebase/app'
 import { getFirestore } from 'firebase/firestore'
 
 export const firebaseApp = initializeApp({
-  apiKey: 'AIzaSyCwVZFoE4ZQDxGO_yCNzeTeg9XGGGJ9m7g',
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: 'bindeo-app.firebaseapp.com',
   projectId: 'bindeo-app',
   storageBucket: 'bindeo-app.firebasestorage.app',
