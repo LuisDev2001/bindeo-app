@@ -115,6 +115,7 @@ const handleDeleteContact = async (contactId: string) => {
           :name="contact.name"
           :avatarUrl="contact.photo"
           @delete="handleDeleteContact(contact.id)"
+          @edit="router.push({ name: 'edit-contact', params: { id: contact.id } })"
         />
       </template>
       <div v-else class="text-center p-4 bg-background border rounded-md">

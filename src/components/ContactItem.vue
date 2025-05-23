@@ -35,7 +35,7 @@ const emits = defineEmits(['edit', 'delete'])
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger as-child>
-            <Button variant="outline" size="icon">
+            <Button variant="outline" size="icon" @click="emits('edit')">
               <Icon icon="mdi:pencil-outline" width="20" height="20"></Icon>
             </Button>
           </TooltipTrigger>
