@@ -16,22 +16,26 @@ const emits = defineEmits(['edit', 'delete'])
 </script>
 
 <template>
-  <div class="flex gap-4 items-center justify-start rounded-md border px-4 py-2">
-    <Avatar>
-      <AvatarImage v-if="props.avatarUrl" :src="props.avatarUrl" :alt="props.name" />
-      <AvatarFallback v-else>
-        <Icon icon="mdi:account" width="20" height="20" />
-      </AvatarFallback>
-    </Avatar>
-    <div>
-      <Label class="text-center text-lg font-semibold">
-        {{ props.name || 'Nombre de contacto' }}
-      </Label>
-      <Label class="text-center text-sm text-muted-foreground">
-        {{ props.email || 'Correo electrónico' }}
-      </Label>
+  <div
+    class="flex flex-col gap-4 items-center justify-start rounded-md border px-4 py-2 md:flex-row md:justify-between"
+  >
+    <div class="flex items-center gap-4">
+      <Avatar>
+        <AvatarImage v-if="props.avatarUrl" :src="props.avatarUrl" :alt="props.name" />
+        <AvatarFallback v-else>
+          <Icon icon="mdi:account" width="20" height="20" />
+        </AvatarFallback>
+      </Avatar>
+      <div>
+        <Label class="text-center text-lg font-semibold">
+          {{ props.name || 'Nombre de contacto' }}
+        </Label>
+        <Label class="text-center text-sm text-muted-foreground">
+          {{ props.email || 'Correo electrónico' }}
+        </Label>
+      </div>
     </div>
-    <div class="flex gap-2 ml-auto">
+    <div class="flex items-center gap-2">
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger as-child>

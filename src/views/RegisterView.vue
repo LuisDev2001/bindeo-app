@@ -58,7 +58,7 @@ const onSubmit = form.handleSubmit((values) => {
 </script>
 
 <template>
-  <div class="w-[380px] m-auto min-h-screen flex justify-center items-center">
+  <div class="w-full m-auto min-h-screen flex justify-center items-center md:w-[380px]">
     <Card class="w-full">
       <CardHeader>
         <h2 class="text-2xl font-bold text-center">Crear cuenta</h2>

@@ -2,25 +2,15 @@
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { toast } from 'vue-sonner'
-import { signOut } from 'firebase/auth'
 import { collection, doc, deleteDoc } from 'firebase/firestore'
 import { db } from '@/firebase'
-import { useCurrentUser, useFirebaseAuth, useCollection } from 'vuefire'
+import { useCurrentUser, useCollection } from 'vuefire'
 import { Icon } from '@iconify/vue'
 import ContactItem from '@/components/ContactItem.vue'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
 import { Button } from '@/components/ui/button'
-import UserSkeleton from '@/components/skeletons/UserSkeleton.vue'
 import ContactItemSkeleton from '@/components/skeletons/ContactItemSkeleton.vue'
 
 const user = useCurrentUser()
-const auth = useFirebaseAuth()
 const router = useRouter()
 
 const contactSource = computed(() => {
@@ -29,23 +19,6 @@ const contactSource = computed(() => {
 })
 
 const { data: contactList, pending: contactListPending } = useCollection(contactSource)
-
-const handleSignOut = () => {
-  if (!auth) {
-    console.error('Firebase Auth instance is not available.')
-    return
-  }
-  signOut(auth)
-    .then(() => {
-      console.log('User signed out successfully')
-      toast.success('Sesión cerrada con éxito')
-      router.push({ name: 'login' })
-    })
-    .catch((error) => {
-      console.error('Error signing out:', { error })
-      toast.error('Error al cerrar sesión')
-    })
-}
 
 const handleDeleteContact = async (contactId: string) => {
   if (!user.value?.uid) return
@@ -61,42 +34,14 @@ const handleDeleteContact = async (contactId: string) => {
 </script>
 
 <template>
-  <div class="flex items-center justify-end max-w-[920px] mx-auto mt-4">
-    <UserSkeleton v-if="!user?.uid" />
-    <DropdownMenu v-else>
-      <DropdownMenuTrigger>
-        <div class="flex items-center space-x-2">
-          <h2 class="text-sm font-semibold">
-            {{ user?.displayName || user?.email || 'Usuario' }}
-          </h2>
-          <Avatar>
-            <AvatarImage
-              v-if="user?.photoURL"
-              :src="user?.photoURL"
-              :alt="user?.displayName || user?.email || 'Usuario'"
-            />
-            <AvatarFallback v-else>
-              <Icon icon="mdi:account" width="20" height="20" />
-            </AvatarFallback>
-          </Avatar>
-        </div>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent side="bottom" align="end">
-        <DropdownMenuItem @select="handleSignOut">
-          <Icon icon="mdi:logout" width="20" height="20" />
-          Cerrar sesión
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
-  </div>
   <div class="grid grid-cols-1 items-start gap-4 mt-4 max-w-[920px] mx-auto">
-    <div class="flex items-center justify-between mt-4">
-      <div>
+    <div class="flex flex-col items-center justify-between mt-4 md:flex-row">
+      <div class="mb-4">
         <h1 class="text-2xl font-bold">Contactos</h1>
         <p class="text-sm text-muted-foreground">Lista de contactos</p>
       </div>
-      <router-link to="/create-contact">
-        <Button variant="ghost">
+      <router-link :to="{ name: 'create-contact' }" class="w-full md:w-auto">
+        <Button variant="outline" class="w-full md:w-auto">
           <Icon icon="mdi:plus" width="20" height="20" />
           Crear nuevo contacto
         </Button>

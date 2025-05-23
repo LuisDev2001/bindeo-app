@@ -19,28 +19,39 @@ const router = createRouter({
       component: () => import('../views/RegisterView.vue'),
     },
     {
-      path: '/contacts',
-      name: 'contacts',
-      component: () => import('../views/ContactsView.vue'),
+      path: '/bindeo',
+      name: 'bindeo-app',
+      redirect: '/bindeo/contacts',
+      component: () => import('../views/private/BindeoView.vue'),
       meta: {
         requiresAuth: true,
       },
-    },
-    {
-      path: '/create-contact',
-      name: 'create-contact',
-      component: () => import('../views/CreateNewContactView.vue'),
-      meta: {
-        requiresAuth: true,
-      },
-    },
-    {
-      path: '/edit-contact/:id',
-      name: 'edit-contact',
-      component: () => import('../views/EditContactView.vue'),
-      meta: {
-        requiresAuth: true,
-      },
+      children: [
+        {
+          path: 'contacts',
+          name: 'contacts',
+          component: () => import('../views/private/ContactsView.vue'),
+          meta: {
+            requiresAuth: true,
+          },
+        },
+        {
+          path: 'create-contact',
+          name: 'create-contact',
+          component: () => import('../views/private/CreateNewContactView.vue'),
+          meta: {
+            requiresAuth: true,
+          },
+        },
+        {
+          path: 'edit-contact/:id',
+          name: 'edit-contact',
+          component: () => import('../views/private/EditContactView.vue'),
+          meta: {
+            requiresAuth: true,
+          },
+        },
+      ],
     },
     {
       path: '/:pathMatch(.*)*',

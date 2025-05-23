@@ -60,7 +60,7 @@ const signinPopup = () => {
     .then(() => {
       console.log('User signed in successfully')
       toast.success('Sesión iniciada con éxito')
-      router.push({ name: 'contacts' })
+      router.push({ name: 'bindeo-app' })
     })
     .catch((error) => {
       console.error('Error signing in:', { error })
@@ -71,7 +71,7 @@ const signinPopup = () => {
 </script>
 
 <template>
-  <div class="w-[380px] m-auto min-h-screen flex justify-center items-center">
+  <div class="w-full m-auto min-h-screen flex justify-center items-center md:w-[380px]">
     <Card class="w-full">
       <CardContent class="space-y-6">
         <div class="w-full text-center">
