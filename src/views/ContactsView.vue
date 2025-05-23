@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
+import { toast } from 'vue-sonner'
 import { signOut } from 'firebase/auth'
 import { collection, doc, deleteDoc } from 'firebase/firestore'
 import { db } from '@/firebase'
@@ -37,19 +38,24 @@ const handleSignOut = () => {
   signOut(auth)
     .then(() => {
       console.log('User signed out successfully')
+      toast.success('Sesión cerrada con éxito')
       router.push({ name: 'login' })
     })
     .catch((error) => {
       console.error('Error signing out:', { error })
+      toast.error('Error al cerrar sesión')
     })
 }
 
 const handleDeleteContact = async (contactId: string) => {
   if (!user.value?.uid) return
   try {
-    await deleteDoc(doc(db, 'users', user.value.uid, 'contacts', contactId))
+    await deleteDoc(doc(db, 'users', user.value.uid, 'contacts', contactId)).then(() => {
+      toast.success('Contacto eliminado con éxito')
+    })
   } catch (e) {
     console.error('Error deleting contact:', e)
+    toast.error('Error al eliminar el contacto')
   }
 }
 </script>

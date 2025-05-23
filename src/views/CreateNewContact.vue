@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import { shallowRef } from 'vue'
 import { useRouter } from 'vue-router'
 import { useCurrentUser } from 'vuefire'
+import { toast } from 'vue-sonner'
 import { useForm } from 'vee-validate'
 import { collection, addDoc } from 'firebase/firestore'
 import { toTypedSchema } from '@vee-validate/zod'
@@ -12,6 +14,7 @@ import { db } from '@/firebase'
 
 const router = useRouter()
 const user = useCurrentUser()
+const isLoadingCreateContact = shallowRef(false)
 const formSchema = toTypedSchema(
   z.object({
     photo: z.string().optional(),
@@ -27,6 +30,7 @@ const form = useForm({
 const onSubmit = form.handleSubmit(async (values) => {
   if (!user.value?.uid) return
   try {
+    isLoadingCreateContact.value = true
     const randomId = Math.floor(Math.random() * 99) + 1
     const randomPhoto = `https://randomuser.me/api/portraits/men/${randomId}.jpg`
     await addDoc(collection(db, 'users', user.value.uid, 'contacts'), {
@@ -34,10 +38,16 @@ const onSubmit = form.handleSubmit(async (values) => {
       name: values.name,
       email: values.email,
       createdAt: new Date(),
+    }).then(() => {
+      form.resetForm()
+      toast.success('Contacto creado con éxito')
+      router.push({ name: 'contacts' })
     })
-    router.push({ name: 'contacts' })
   } catch (e) {
-    console.error(e)
+    console.error('Error creating contact:', e)
+    toast.error('Error al crear el contacto')
+  } finally {
+    isLoadingCreateContact.value = false
   }
 })
 </script>
@@ -73,12 +83,16 @@ const onSubmit = form.handleSubmit(async (values) => {
         <Button
           variant="secondary"
           class="w-full flex-1/2 md:w-32 md:flex-initial"
+          :disabled="isLoadingCreateContact"
           @click="router.push({ name: 'contacts' })"
         >
           Cancelar
         </Button>
 
-        <Button :disabled="!form.meta.value.valid" class="w-full flex-1/2 md:w-32 md:flex-initial">
+        <Button
+          :disabled="!form.meta.value.valid || isLoadingCreateContact"
+          class="w-full flex-1/2 md:w-32 md:flex-initial"
+        >
           Crear contacto
         </Button>
       </div>

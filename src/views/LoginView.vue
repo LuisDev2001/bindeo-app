@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword } from 'firebase/auth'
 import { useFirebaseAuth } from 'vuefire'
+import { toast } from 'vue-sonner'
+import { GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword } from 'firebase/auth'
 import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import * as z from 'zod'
@@ -38,10 +39,12 @@ const onSubmit = form.handleSubmit((values) => {
   signInWithEmailAndPassword(auth, values.email, values.password)
     .then(() => {
       console.log('User signed in successfully')
+      toast.success('Sesión iniciada con éxito')
       router.push({ name: 'contacts' })
     })
     .catch((error) => {
       console.error('Error signing in:', { error })
+      toast.error('Error al iniciar sesión')
       error.value = error.message
     })
 })
@@ -55,10 +58,12 @@ const signinPopup = () => {
   signInWithPopup(auth, googleAuthProvider)
     .then(() => {
       console.log('User signed in successfully')
+      toast.success('Sesión iniciada con éxito')
       router.push({ name: 'contacts' })
     })
     .catch((error) => {
       console.error('Error signing in:', { error })
+      toast.error('Error al iniciar sesión')
       error.value = error.message
     })
 }
