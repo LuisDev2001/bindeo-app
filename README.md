@@ -1,39 +1,62 @@
 # bindeo-app
 
-This template should help get you started developing with Vue 3 in Vite.
+bindeo-app es una aplicación de gestión de contactos personales, donde cada usuario puede registrar y administrar sus propios contactos asociados a su correo electrónico. El propósito principal de este proyecto es explorar y experimentar con **VueFire** y **Firebase**, evaluando su integración, facilidad de uso y capacidades dentro de un entorno real de Vue 3.
 
-## Recommended IDE Setup
+## Objetivos del Proyecto
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+- Explorar la integración de [VueFire](https://vuefire.vuejs.org/) con [Firebase](https://firebase.google.com/).
+- Probar funcionalidades de autenticación y base de datos en tiempo real.
+- Recoger sensaciones y aprendizajes sobre el uso de estas tecnologías en un proyecto Vue.
 
-## Type Support for `.vue` Imports in TS
+## Tecnologías Utilizadas
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+- [Vue 3](https://vuejs.org/)
+- [Vue Router](https://router.vuejs.org/)
+- [VueFire](https://vuefire.vuejs.org/)
+- [Firebase](https://firebase.google.com/)
+- [Tailwind CSS 4](https://tailwindcss.com/)
+- [shadcn-vue](https://ui.shadcn.com/)
+- [vue-sonner](https://sonner.emilkowal.ski/vue)
+- [vee-validate](https://vee-validate.logaretm.com/)
+- [zod](https://zod.dev/)
 
-## Customize configuration
+## Características
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+- Registro y autenticación de usuarios mediante correo electrónico.
+- Gestión de contactos personales (crear, editar, eliminar, listar).
+- Sincronización en tiempo real de los datos usando Firestore.
+- Interfaz moderna y responsiva construida con Vue 3 y Vite.
 
-## Project Setup
+## Demo
+
+Puedes probar la aplicación en el siguiente enlace:
+
+[Ver demo en Netlify](https://bindeo-app.netlify.app)
+
+## Instalación
 
 ```sh
-npm install
+pnpm install
 ```
 
-### Compile and Hot-Reload for Development
+### Desarrollo (Hot-Reload)
 
 ```sh
-npm run dev
+pnpm run dev
 ```
 
-### Type-Check, Compile and Minify for Production
+### Compilación y Minificación para Producción
 
 ```sh
-npm run build
+pnpm run build
 ```
 
-### Lint with [ESLint](https://eslint.org/)
+### Linting con [ESLint](https://eslint.org/)
 
 ```sh
-npm run lint
+pnpm run lint
 ```
+
+## Notas
+
+Este proyecto es experimental y su objetivo principal es la exploración tecnológica, no la producción. Se recomienda revisar y ajustar las reglas de seguridad de Firebase antes de desplegar en un entorno real.

@@ -20,7 +20,6 @@
     "clsx": "^2.1.1",
     "firebase": "^11.7.3",
     "lucide-vue-next": "^0.511.0",
-    "pinia": "^3.0.1",
     "reka-ui": "^2.2.1",
     "tailwind-merge": "^3.3.0",
     "tailwindcss": "^4.1.7",
