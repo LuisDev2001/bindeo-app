@@ -15,6 +15,7 @@ import { db } from '@/firebase'
 const router = useRouter()
 const user = useCurrentUser()
 const isLoadingCreateContact = shallowRef(false)
+
 const formSchema = toTypedSchema(
   z.object({
     photo: z.string().optional(),
@@ -33,16 +34,16 @@ const onSubmit = form.handleSubmit(async (values) => {
     isLoadingCreateContact.value = true
     const randomId = Math.floor(Math.random() * 99) + 1
     const randomPhoto = `https://randomuser.me/api/portraits/men/${randomId}.jpg`
-    await addDoc(collection(db, 'users', user.value.uid, 'contacts'), {
+    const data = {
       photo: randomPhoto,
       name: values.name,
       email: values.email,
       createdAt: new Date(),
-    }).then(() => {
-      form.resetForm()
-      toast.success('Contacto creado con éxito')
-      router.push({ name: 'contacts' })
-    })
+    }
+    const contactsCollection = collection(db, 'users', user.value.uid, 'contacts')
+    await addDoc(contactsCollection, data)
+    toast.success('Contacto creado exitosamente')
+    router.push({ name: 'contacts' })
   } catch (e) {
     console.error('Error creating contact:', e)
     toast.error('Error al crear el contacto')

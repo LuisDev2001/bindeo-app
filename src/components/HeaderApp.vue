@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
-import { signOut } from 'firebase/auth'
 import { useFirebaseAuth } from 'vuefire'
 import { toast } from 'vue-sonner'
 import { Icon } from '@iconify/vue'
@@ -28,7 +27,8 @@ const handleSignOut = () => {
     console.error('Firebase Auth instance is not available.')
     return
   }
-  signOut(auth)
+  auth
+    .signOut()
     .then(() => {
       console.log('User signed out successfully')
       toast.success('Sesión cerrada con éxito')

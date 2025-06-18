@@ -38,15 +38,16 @@ const onSubmit = form.handleSubmit(async (values) => {
   if (!user.value?.uid) return
   try {
     isLoadingEditContact.value = true
-    await updateDoc(doc(db, 'users', user.value.uid, 'contacts', String(route.params.id)), {
+    const contactDoc = doc(db, 'users', user.value.uid, 'contacts', String(route.params.id))
+    const data = {
       name: values.name,
       email: values.email,
       createdAt: new Date(),
-    }).then(() => {
-      form.resetForm()
-      toast.success('Contacto actualizado con éxito')
-      router.push({ name: 'contacts' })
-    })
+    }
+    await updateDoc(contactDoc, data)
+    form.resetForm()
+    toast.success('Contacto actualizado con éxito')
+    router.push({ name: 'contacts' })
   } catch (e) {
     console.error('Error creating contact:', e)
     toast.error('Error al actualizar el contacto')
